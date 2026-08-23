@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
+
 app = FastAPI()   
 
 @app.get("/")
@@ -33,3 +35,24 @@ def get_user(user_id: int):
     return {"user_id": user_id,
             "username": f"user_{user_id}",
             "role": "student"}
+
+@app.get("users/{user_id}/posts")
+def get_user_posts(user_id: int, limit: int= 5):
+    return {
+        "user_id": user_id,
+        "limit": limit,
+        "posts": [f"Post {i+1} for user {user_id}" for i in range(limit)]}
+
+
+
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    age: int
+
+@app.post("/users")
+def create_user(user: UserCreate):
+    return {
+        "status": "user created successfully",
+        "data": user
+    }
