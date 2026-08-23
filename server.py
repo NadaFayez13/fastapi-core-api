@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from typing import Optional
 app = FastAPI()   
 
 @app.get("/")
@@ -20,3 +21,10 @@ def add_numbers(a: int, b: int):
         "num2:": b,
         "result": a + b}
 
+@app.get("/search")
+def search(q: str, category: Optional[str] = None, limit: Optional[int] = 10):
+    return {
+        "query": q,
+        "category": category,
+        "limit": limit
+    }
