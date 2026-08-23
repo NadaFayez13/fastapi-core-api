@@ -26,5 +26,10 @@ def search(q: str, category: Optional[str] = None, limit: Optional[int] = 10):
     return {
         "query": q,
         "category": category,
-        "limit": limit
-    }
+        "limit": limit}
+
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    return {"user_id": user_id,
+            "username": f"user_{user_id}",
+            "role": "student"}
